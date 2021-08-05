@@ -27,10 +27,30 @@ GA DSI Capstone - Amazon Reviews
  **Methodology **  
 - EDA (data already has duplicates removed, so that is one less step)
     - remove nulls and try to make sure formatting is consistent (ie. lowercasing, punctuations etc.)
-- Group by star rating (positive or negative; will probably have to set a star threshold to demarcate between positive and negative reviews)
-- filter reviews by helpful/unhelpful votes to produce 4 classification groups: pos-helpful, pos-unhelpful, neg-helpful, neg-unhelpful
-    - use NLP tools and SIA to try to to further refine these classification groups (ie. tokenizing, removing stopwords, polarity scores etc.)
-- build classification models using pipeline and gridsearch to find the best hyperparameters to optimize models
-- implement appropiate metrics to determine accuracy.
+- Define target variable and look at distribution.
+    - Since target variable was presented as a list of two numbers, the ratio was going to be a continuos variable. To make it fit a classification problem, I picked an arbitrary threshold of 70% to divde variables into one class or another.
+    - original dataset had 'helpful' class as minority class, but after dropping about half of the dataset that did not contain scores for helpful column, new dataset had 'helpful' as majority class.
+- Created custom cleaning function to clean the reviews to remove any uunewanted characters.
+- Deal with class imbalance in target column
+    - Create a function to undersample the majority class because of class imbalance, which might cause model to overfit, but also because dataset size was too large to run many functions.
+- Word embedding of reviews using Count and TFIDF vectorizers.
+- Topic Modeling using Latent Dirichlet Allocation(LDA)
+    - grouping into similar categories did not yield the separation that I had hoped for within the target class.
+- Modeling:
+    - Logistic Regression, Multinomial Naive Bayes, Decision Tree Classifier, Bagging Classifier, Random Forest Classifier, AdaBoost Classifier, Support Vector Classifier.
 
+**Analysis**
+- In order to try and correctly predict as many 'helpful' reviews as possible, we want to reduce the number of False Positives. In other words, even though we would like to be able to accurately predict each class, it is more preferable for a 'helpful' review to be misclassified as 'unhelpful', than for an 'unhelpful' review to be classified as 'helpful'. Therefore the metric we want to optimize for is: Recall(Sensitivity)
+    - the precicion and f1 score would also be good metrics to look at.
+- of all the models run, the Logistic Regression and MNB models with TFIDF had the highest recall scores, with both at 61%
+- Not the greatest improvement over the baseline prediction of 50%, but I believe I would have been able to get a better score had I been able to word embed my corpus on word2vec. 
+    - I don't think the count and tfidf vectorizers were able to represent the text vectors as well as word2vec coudl have.
+- I believe a neural net model would have also fared better at classifying the word vectors than the ohter classification models I tried.
 
+**Conclusions/Reccs**
+- Natural Language Processing is very difficult to model, because of the many different ways humans use language. There are no set number of patterns that a model can learn because the language is ever changing.
+    - An example from the dataset that caught my eye was the fact that the most helpful rated review was a pretty funny sarcastic review of a banana slicer. A model woudl have a very hard time trying to pick up on that, and would most likely misclassify it as a helpful review, when any human reading it would say otherwise.
+- There are other processing techniques that I would like to try such as spaCY for named entity recognition of parts of speech tags.
+    - other processing techniques that woudl help to reduce the dimensions of the corpus and provide some kind of distinction between the target classes, before feeding them into my models.
+- Gridsearching over model hyperparameters woudl also help in increasing the accuracy of the models as well.
+- These are just some of the steps I plan to impement in the near future, as I work to improve my mo
