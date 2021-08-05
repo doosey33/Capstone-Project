@@ -53,4 +53,4 @@ GA DSI Capstone - Amazon Reviews
 - There are other processing techniques that I would like to try such as spaCY for named entity recognition of parts of speech tags.
     - other processing techniques that woudl help to reduce the dimensions of the corpus and provide some kind of distinction between the target classes, before feeding them into my models.
 - Gridsearching over model hyperparameters woudl also help in increasing the accuracy of the models as well.
-- These are just some of the steps I plan to impement in the near future, as I work to improve my mo
+- These are just some of the steps I plan to impement in the near future, as I work to improve my model.
